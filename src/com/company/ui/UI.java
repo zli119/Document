@@ -21,22 +21,22 @@ public class UI extends JFrame{
         private FileWriter fileWriter;
         private BufferedWriter bufferedWriter;
     public UI(){
-        super("TextEditor");
+        super("Document Classify");
         setSize(400,500);
         setLocation(500,100);
         Container c=getContentPane();
         c.setBackground(Color.BLUE);
         JMenu m1=new JMenu("File");
         JMenuItem mi1=new JMenuItem("New");
-        JMenuItem mi2=new JMenuItem("Save");
-        JMenuItem mi3=new JMenuItem("Open");
+        JMenuItem mi2=new JMenuItem("Open Folder");
+        JMenuItem mi3=new JMenuItem("Open File");
         JMenuItem mi4=new JMenuItem("Quit");
         m1.add(mi1);
         m1.add(mi3);
         m1.add(mi2);        
         m1.add(mi4);        
-        JMenu m2=new JMenu("Build");
-        JMenuItem mi5=new JMenuItem("Compile");
+        JMenu m2=new JMenu("Excuse");
+        JMenuItem mi5=new JMenuItem("Classify File");
         JMenuItem mi6=new JMenuItem("Run");
         m2.add(mi5);
         m2.add(mi6);

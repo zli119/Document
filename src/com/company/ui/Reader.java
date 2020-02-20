@@ -15,7 +15,7 @@ import java.util.*;
 public class Reader {
     private static HashMap <String,String> dict;
    public static void DictBuilder() throws FileNotFoundException, IOException{
-        BufferedReader br=new BufferedReader(new FileReader("dict.txt"));
+        BufferedReader br=new BufferedReader(new FileReader("voidWords.txt"));
         String s="";
         dict=new HashMap<>();
         while((s=br.readLine())!=null){
