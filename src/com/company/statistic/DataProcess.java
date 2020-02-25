@@ -1,42 +1,34 @@
 package com.company.statistic;
 
+import com.company.statistic.FileReader.MyReader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
+
 import java.io.*;
 import java.util.*;
 
 
-public class Reader {
+public class DataProcess {
     private static Set<String> voidWords;
     private static List<Set<String>> setList;
 
     // Builder void words set
-    public static void voidWordsBuilder() throws FileNotFoundException, IOException {
+    public static Set<String> voidWordsBuilder() throws FileNotFoundException, IOException {
+        if (voidWords != null) return voidWords;
         voidWords = new HashSet<>();
         BufferedReader br = new BufferedReader(new FileReader("voidWords.txt"));
-        String s ="";
-        while((s=br.readLine())!=null){
-            String[] line=s.split("\\s+");
+        String s = "";
+        while ((s = br.readLine()) != null) {
+            String[] line = s.split("\\s+");
             if (line != null && line.length > 0) voidWords.add(line[0]);
         }
         br.close();
+
     }
 
     // build words number map
-    public static HashMap<String, Integer> countWords() throws FileNotFoundException, IOException{
-        HashMap <String, Integer> wordCounter;
-        BufferedReader br=new BufferedReader(new FileReader(".txt"));
-        String s="";
-        wordCounter = new HashMap<>();
-        while((s=br.readLine())!=null){
-            String[] line=s.split("\\s+");
-            for (String word : line) {
-                if (!voidWords.contains(word)) {
-                    wordCounter.put(word, wordCounter.getOrDefault(word, 0) + 1);
-                }
-            }
-        }
-        br.close();
-        return wordCounter;
-    }
+
 
     // create data set, compare the keywords set and data set, to figure out the class(use HashMap)
     public static Set top20Keyword(HashMap<String, Integer> map) {
@@ -71,11 +63,34 @@ public class Reader {
         return setList.get(maxIndex);
     }
 
+    public static String readPDF(String path) {
+        try {
+            PDDocument document = null;
+            document = PDDocument.load(new File(path));
+            document.getClass();
+            if (!document.isEncrypted()) {
+                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                stripper.setSortByPosition(true);
+                PDFTextStripper Tstripper = new PDFTextStripper();
+                String st = Tstripper.getText(document);
+                System.out.println("Text:" + st);
+                return st;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+
+
 
     public static void main(String[] args) throws IOException{
         String input="";
         voidWordsBuilder();
         System.out.println(voidWords.size());
+        readWriteCSV("write.csv");
     }
 
 }
