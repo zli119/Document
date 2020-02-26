@@ -1,5 +1,5 @@
-package com.company.statistic.FileReader;
-
-public class DocReader implements MyReader {
-
-}
+//package com.company.statistic.FileReader;
+//
+//public class DocReader implements MyReader {
+//
+//}
