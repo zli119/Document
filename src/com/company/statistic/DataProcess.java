@@ -63,24 +63,7 @@
 //        return setList.get(maxIndex);
 //    }
 //
-//    public static String readPDF(String path) {
-//        try {
-//            PDDocument document = null;
-//            document = PDDocument.load(new File(path));
-//            document.getClass();
-//            if (!document.isEncrypted()) {
-//                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-//                stripper.setSortByPosition(true);
-//                PDFTextStripper Tstripper = new PDFTextStripper();
-//                String st = Tstripper.getText(document);
-//                System.out.println("Text:" + st);
-//                return st;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
+
 //
 //
 //

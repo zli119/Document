@@ -1,4 +1,4 @@
-package com.company.statistic.FileReader;
+package com.company.statistic.fileReader;
 
 import java.util.HashMap;
 
