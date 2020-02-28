@@ -11,7 +11,7 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
-public class DocReader implements MyReader {
+public class DocReader extends AbstactReader {
     HashMap<String, Integer> map;
     public HashMap<String, Integer> countWords(String filePath) {
         map = new HashMap<>();
@@ -24,6 +24,7 @@ public class DocReader implements MyReader {
         catch (Exception e) {
             e.printStackTrace();
         }
+        return map;
     }
 
 
