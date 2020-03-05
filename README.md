@@ -1,5 +1,5 @@
 # Document_Classify
-# A program that reads documents of every kind. Gueses what the contents are and creates and index of documents.
+# A program that reads documents of every kind, gueses what the contents are and creates index of documents.
 
 ### 1. target
 
@@ -9,10 +9,14 @@ A local program that reads documents of every kind. Gueses what the contents are
 
 ### 2. technology
 
+* Stanford CoreNLP 
 * Java  
 * Java Swing
 
-### 3. function
+### 3. principle
+
+⚫ Building a program that reads documents of every kind, guesses what the contents are and creates index of documents
+⚫ Learning and utilizing ontological link distance to figure out the relationship and degree of words, using K means clustering to create its own categories of commonality
 
 * Read document -> count key words -> ranking -> decide documents label
 
@@ -20,3 +24,14 @@ A local program that reads documents of every kind. Gueses what the contents are
 
 ### 4. process
 (1) create a program that can do statistics of words in a document.
+
+### 5. The idea of 1th generation product
+(1) set some labels in the database:
+   1) computer science
+   2) physics 
+   3) math
+   4) nutrition
+   5) fiction
+   6) poem
+   7) 
+
