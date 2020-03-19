@@ -10,6 +10,7 @@ A local program that reads documents of every kind. Gueses what the contents are
 ### 2. technology
 
 * Stanford CoreNLP 
+* Protege
 * Java  
 * Java Swing
 
@@ -21,6 +22,14 @@ A local program that reads documents of every kind. Gueses what the contents are
 * Read document -> count key words -> ranking -> decide documents label
 
 * Create folders -> classify documents to different folders
+
+Machine learning part
+
+result:  input pdf,  output label
+need: 1) train dataset
+       has label and pdf
+      2) training algorithm   **
+How to create the link between Stanford CoreNLP and dataset?
 
 ### 4. process
 (1) create a program that can do statistics of words in a document.
