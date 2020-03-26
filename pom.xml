@@ -7,18 +7,29 @@
     <groupId>UTPE</groupId>
     <artifactId>DocumentClassify</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <!-- 在这里添加你的依赖 -->
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.9.2</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
-            <groupId>uk.ac.gate.plugins</groupId>
-            <artifactId>stanford-corenlp</artifactId>
-            <version>8.5.1</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
     

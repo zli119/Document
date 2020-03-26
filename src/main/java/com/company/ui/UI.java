@@ -5,6 +5,9 @@
  */
 package com.company.ui;
 import com.company.statistic.LoadFiles;
+import edu.stanford.nlp.classify.Classifier;
+import edu.stanford.nlp.classify.ColumnDataClassifier;
+import edu.stanford.nlp.ling.Datum;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,6 +21,7 @@ import javax.swing.*;
  * @author Administrator
  */
 public class UI extends JFrame{
+        private String folderPath;
         private FileReader fileReader;
         private BufferedReader bufferedReader;
         private FileWriter fileWriter;
@@ -59,12 +63,36 @@ public class UI extends JFrame{
             public void actionPerformed(ActionEvent e){
                 JFileChooser chooser=new JFileChooser();
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
                 if(chooser.showOpenDialog(chooser)==JFileChooser.APPROVE_OPTION){
-                    System.out.println(chooser.getSelectedFile());
-                    String folderPath = chooser.getSelectedFile().toString();
-                    LoadFiles.loadAllFiles(folderPath);
+                    String path = chooser.getSelectedFile().toString();
+                    if (folderPath == null) {
+                        folderPath = path;
+                        System.out.println(folderPath);
+                    }
+                    //LoadFiles.loadAllFiles(path);
                 }
-                System.out.println(LoadFiles.filePaths.size());
+                String trainProp = "/home/rocky/Documents/projects/DocumentClassify/data/20news1.prop";
+                String trainFile = "/home/rocky/Documents/projects/DocumentClassify/data/20news-bydate-devtrain-stanford-classifier.txt";
+                String filePath = "/home/rocky/Documents/projects/DocumentClassify/data/20news-bydate-devtest-stanford-classifier.txt";
+                ColumnDataClassifier cdc = new ColumnDataClassifier(trainProp);
+                Classifier classifier = cdc.makeClassifier(cdc.readTrainingExamples(trainFile));
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(filePath));
+                    String str = "";
+                    String getAll="";
+                    while ((str = br.readLine()) != null) {
+                        Datum datum = cdc.makeDatumFromLine(str);
+                        String fileName = str.split("\\s+")[1];
+                        String cls = (String)classifier.classOf(datum);
+                        getAll+= fileName + "               " + cls +"\r\n";
+                        System.out.println(fileName + " " + cls);
+                    }
+                    ta.setText(getAll);
+                    br.close();
+                }
+                catch (Exception ee) {}
+                //System.out.println(LoadFiles.filePaths.size());
             }
         });
         openFile.addActionListener(new ActionListener(){
@@ -119,9 +147,15 @@ public class UI extends JFrame{
             File f=new File("test.java");
             long t=f.lastModified();       
     }
+    public String getFolderPath() {
+        return folderPath;
+    }
+    static ColumnDataClassifier cdc;
+    static Classifier classifier;
+
     public static void main(String[] args){
-        new UI();
-        System.out.println(LoadFiles.filePaths.size());
-        System.out.println(LoadFiles.filePaths.size());
+//        new UI();
+//        System.out.println(LoadFiles.filePaths.size());
+//        System.out.println(LoadFiles.filePaths.size());
     }
 }
