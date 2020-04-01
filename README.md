@@ -5,7 +5,8 @@
 
 A local program that reads documents of every kind. Gueses what the contents are and creates and index of documents.
 (1) Open a folder, it will classify the documents automatically
-(2) store the class labels into database, according to the file name (every documents may have several lables)
+(2) The Classifier could continue to update 
+(2) Store the Classifier and dataset into database
 
 ### 2. technology
 
@@ -16,7 +17,6 @@ A local program that reads documents of every kind. Gueses what the contents are
 
 ### 3. principle
 
-⚫ Building a program that reads documents of every kind, guesses what the contents are and creates index of documents
 ⚫ Learning and utilizing ontological link distance to figure out the relationship and degree of words, using K means clustering to create its own categories of commonality
 
 * Read document -> count key words -> ranking -> decide documents label
