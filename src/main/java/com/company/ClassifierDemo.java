@@ -1,4 +1,4 @@
-package com.company.ui;
+package com.company;
 
 import edu.stanford.nlp.classify.Classifier;
 import edu.stanford.nlp.classify.ColumnDataClassifier;
@@ -78,7 +78,7 @@ class ClassifierDemo {
 
   private static void demonstrateSerializationColumnDataClassifier()
     throws IOException, ClassNotFoundException {
-    System.out.println();
+    System.out.println();//Demonstrating working with a serialized classifier
     System.out.println("Demonstrating working with a serialized classifier using serializeTo");
     ColumnDataClassifier cdc = new ColumnDataClassifier(where + "examples/cheese2007.prop");
     cdc.trainClassifier(where + "examples/cheeseDisease.train");
