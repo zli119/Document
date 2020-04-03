@@ -7,6 +7,8 @@ package com.company.ui;
 
 import com.company.statistic.DocumentClassifier;
 import com.company.statistic.LoadFiles;
+import com.company.statistic.fileReset.FolderInfo;
+import com.company.statistic.fileReset.filesReset;
 import edu.stanford.nlp.classify.Classifier;
 import edu.stanford.nlp.classify.ColumnDataClassifier;
 import edu.stanford.nlp.ling.Datum;
@@ -14,6 +16,7 @@ import edu.stanford.nlp.ling.Datum;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -61,6 +64,9 @@ public class UI extends JFrame {
 
         DocumentClassifier dc = DocumentClassifier.getClassifier();
         ColumnDataClassifier cdc = dc.cdc;
+        FolderInfo folderInfo = FolderInfo.getFolderInfo();
+        Map<String, String> filePathMap = folderInfo.filePathMap;
+
         aNew.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ta.setText("");
@@ -72,7 +78,8 @@ public class UI extends JFrame {
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
                 if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
-                    String path = chooser.getSelectedFile().toString();
+                    File folder = chooser.getSelectedFile();
+                    String path = folder.toString();
                     if (folderPath == null) {
                         folderPath = path;
                         System.out.println(folderPath);
@@ -82,6 +89,9 @@ public class UI extends JFrame {
                 String trainFile = "C:\\Users\\rocky\\IdeaProjects\\DocumentClassify\\data\\20news-bydate-devtrain-stanford-classifier.txt";
                 try {
                     cdc.trainClassifier(trainFile);
+                    ObjectOutputStream os=new ObjectOutputStream(new FileOutputStream("model.txt"));
+                    cdc.serializeClassifier(os);
+                    os.close();
                 } catch (Exception ee) {
                     ee.printStackTrace();
                 }
@@ -106,15 +116,22 @@ public class UI extends JFrame {
                     BufferedReader br = new BufferedReader(new FileReader(filePath));
                     String str = "";
                     String getAll = "";
+                    ObjectInputStream ois=new ObjectInputStream(new FileInputStream("model.txt"));
+                    ColumnDataClassifier t = ColumnDataClassifier.getClassifier(ois);
+                    ois.close();
                     while ((str = br.readLine()) != null) {
-                        Datum datum = cdc.makeDatumFromLine(str);
-                        String fileName = str.split("\\s+")[1];
-                        String cls = (String) cdc.classOf(datum);
-                        getAll += fileName + "               " + cls + "\r\n";
-                        System.out.println(fileName + " " + cls);
+                        Datum datum = t.makeDatumFromLine(str);
+                        String[] words = str.split("\\s+");
+                        String oldPath = folderPath + "\\"+words[0] + "\\"+words[1];
+                        String cls = (String) t.classOf(datum);
+                        String newPath = cls.replaceAll("\\.", "\\\\").toLowerCase().trim();
+                        filePathMap.put(oldPath, newPath);
+                        getAll += oldPath + "               " + cls + "\r\n";
+                        //System.out.println(oldPath + " " + newPath);
                     }
                     ta.setText(getAll);
                     br.close();
+                    filesReset.reset();
                 } catch (Exception ee) {
                 }
                 //System.out.println(LoadFiles.filePaths.size());
