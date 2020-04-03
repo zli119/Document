@@ -24,9 +24,9 @@ public class filesReset {
     public static void copyFile(String srcPathStr, String desPathStr) {
         //获取源文件的名称
         String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("\\") + 1); //目标文件地址
-        System.out.println("源文件:" + newFileName);
+        //System.out.println("源文件:" + newFileName);
         desPathStr = desPathStr + File.separator + newFileName; //源文件地址
-        System.out.println("目标文件地址:" + desPathStr);
+        System.out.println(srcPathStr + "目标文件地址:" + desPathStr);
         try {
             FileInputStream fis = new FileInputStream(srcPathStr);//创建输入流对象
             FileOutputStream fos = new FileOutputStream(desPathStr); //创建输出流对象
@@ -39,7 +39,7 @@ public class filesReset {
             fis.close();//释放资源
             fis.close();//释放资源
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
     public static void moveFile(String oldPath, String newPath) {
@@ -67,7 +67,7 @@ public class filesReset {
         for (String oldPath : filePathMap.keySet()) {
             try {
                 String newPath = "C:\\Users\\rocky\\IdeaProjects\\DocumentClassify\\data\\reset\\"+filePathMap.get(oldPath);
-                System.out.println(oldPath + " " + newPath);
+                //System.out.println(oldPath + " " + newPath);
                 mkdir(newPath);
                 copyFile(oldPath, newPath);
             }catch (Exception e) {
