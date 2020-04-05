@@ -3,11 +3,11 @@ package com.company.statistic.fileTransfer;
 import java.io.*;
 
 public class FileTransfer {
-    public static void format(File srcFile, String desPathStr, int i) {
+    public static void formatFolder(File srcFile, String desPathStr, int i) {
         File[] files = srcFile.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                format(file, desPathStr, i);
+                formatFolder(file, desPathStr, i);
             } else {
                 String fileName = file.getName();
                 String path = file.getAbsolutePath();
@@ -22,7 +22,6 @@ public class FileTransfer {
                         String line = in.readLine().replaceAll("\n", "");
                         fw.append(line + " ");
                     }
-                    in.close();
                     fw.write("\n");
                     fw.flush();
                     bis.close();
@@ -33,6 +32,25 @@ public class FileTransfer {
                 }
             }
         }
+    }
+    public static String formatFile(File srcFile) {
+        if (!srcFile.isFile()) return "";
+        StringBuilder sb = new StringBuilder();
+        try {
+            sb.append("class" + "\t" + "fileName" + "\t");
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(srcFile));
+            BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
+            while (in.ready()) {
+                String line = in.readLine().replaceAll("\n", "");
+                sb.append(line + " ");
+            }
+            sb.append("\n");
+            in.close();
+            bis.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return sb.toString();
     }
 }
 

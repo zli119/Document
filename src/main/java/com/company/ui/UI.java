@@ -91,15 +91,15 @@ public class UI extends JFrame {
                     int j = folderPath.lastIndexOf("\\");
                     String desPathStr = folderPath.substring(0, j) + File.separator + "train.txt";
                     if (!new File(desPathStr).exists()) {
-                        FileTransfer.format(folder, desPathStr, folderPath.length());
+                        FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
                     }
                     String trainFile = desPathStr;
                     System.out.println(trainFile);
                     try {
                         cdc.trainClassifier(trainFile);
-                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("model.txt"));
-                        cdc.serializeClassifier(os);
-                        os.close();
+//                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("model.txt"));
+//                        cdc.serializeClassifier(os);
+//                        os.close();
                     } catch (Exception ee) {
                         ee.printStackTrace();
                     }
@@ -117,7 +117,7 @@ public class UI extends JFrame {
                     int j = folderPath.lastIndexOf("\\");
                     String desPathStr = folderPath.substring(0, j) + File.separator + "test.txt";
                     if (!new File(desPathStr).exists()) {
-                        FileTransfer.format(folder, desPathStr, folderPath.length());
+                        FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
                     }
                     String testFile = desPathStr;
                     System.out.println(testFile);
@@ -144,7 +144,7 @@ public class UI extends JFrame {
                     int j = folderPath.lastIndexOf("\\");
                     String desPathStr = folderPath.substring(0, j) + File.separator + "predict.txt";
                     if (!new File(desPathStr).exists()) {
-                        FileTransfer.format(folder, desPathStr, folderPath.length());
+                        FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
                     }
                     String filePath = desPathStr;
                     try {
@@ -201,11 +201,22 @@ public class UI extends JFrame {
         });
         predictFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Runtime r = Runtime.getRuntime();
-                try {
-                    Process p = r.exec("test.java");
-                } catch (IOException ex) {
-                    Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+//                Runtime r = Runtime.getRuntime();
+//                Process p = r.exec("test.java");
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+                if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
+                    File file1 = chooser.getSelectedFile();
+                    try {
+                        String str = FileTransfer.formatFile(file1);
+                        Datum datum = cdc.makeDatumFromLine(str);
+                        String cls = cdc.classOf(datum);
+                        ta.setText(cls);
+                        System.out.println(cls);
+                    } catch (Exception ex) {
+                        Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });

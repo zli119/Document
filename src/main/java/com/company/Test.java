@@ -6,6 +6,10 @@ import com.company.statistic.fileReader.*;
 import java.util.*;
 
 public class Test {
+    private class Test3{
+
+    }
+    Test3 t3 = new Test3();
     public static void main(String[] args) {
         // test Reader
         String filePath = "test.pdf";
@@ -20,3 +24,7 @@ public class Test {
         //reader.voidWordsBuilder();
     }
 }
+class Test2{
+
+}
+
