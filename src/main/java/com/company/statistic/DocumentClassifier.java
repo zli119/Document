@@ -9,7 +9,7 @@ public class DocumentClassifier {
     public ColumnDataClassifier cdc;
     private static DocumentClassifier classifier = new DocumentClassifier();
     private DocumentClassifier() {
-        if (cdc == null) cdc = new ColumnDataClassifier("C:\\Users\\rocky\\IdeaProjects\\DocumentClassify\\data\\20news1.prop");
+        if (cdc == null) cdc = new ColumnDataClassifier("C:\\Users\\rocky\\IdeaProjects\\DocumentClassify\\src\\test\\data\\my.prop");
     }
     public static DocumentClassifier getClassifier() {
         return classifier;

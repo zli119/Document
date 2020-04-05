@@ -37,7 +37,7 @@ public class filesReset {
                 fos.write(datas, 0, len);
             }
             fis.close();//释放资源
-            fis.close();//释放资源
+            fos.close();//释放资源
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,14 +60,14 @@ public class filesReset {
             e.printStackTrace();
         }
     }
-    public static void reset() {
+    public static void reset(String folderPath) {
         FolderInfo folderInfo = FolderInfo.getFolderInfo();
         Map<String, String> filePathMap = folderInfo.filePathMap;
         System.out.println(filePathMap.size() + " " );
         for (String oldPath : filePathMap.keySet()) {
             try {
-                String newPath = "C:\\Users\\rocky\\IdeaProjects\\DocumentClassify\\data\\reset\\"+filePathMap.get(oldPath);
-                //System.out.println(oldPath + " " + newPath);
+                int i = folderPath.lastIndexOf("\\");
+                String newPath = folderPath.substring(0, i) + "\\Classify\\" + filePathMap.get(oldPath);
                 mkdir(newPath);
                 copyFile(oldPath, newPath);
             }catch (Exception e) {
