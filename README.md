@@ -35,6 +35,7 @@ How to create the link between Stanford CoreNLP and dataset?
 (1) create a program that can do statistics of words in a document.
 
 ### 5. The idea of 1th generation product
+(1) 
 (1) set some labels in the database:
    1) computer science
    2) physics 
