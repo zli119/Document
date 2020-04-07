@@ -21,7 +21,7 @@ A local program that reads documents of every kind. Gueses what the contents are
 
 * Read document -> count key words -> ranking -> decide documents label
 
-* Create folders -> classify documents to different folders
+* Create folders -> classify documents to different folder
 
 Machine learning part
 
