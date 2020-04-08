@@ -25,7 +25,12 @@ import javax.swing.*;
  * @author Administrator
  */
 public class UI extends JFrame {
-
+    DocumentClassifier dc = DocumentClassifier.getClassifier();
+    ColumnDataClassifier cdc = dc.cdc;
+    FolderInfo folderInfo = FolderInfo.getFolderInfo();
+    Map<String, String> filePathMap = folderInfo.filePathMap;
+    public final String PATH = System.getProperty("user.dir");
+    public final String DATAPATH = File.separator + "data";
     public UI() {
         super("Document Classify");
         setSize(400, 200);
@@ -34,14 +39,15 @@ public class UI extends JFrame {
         c.setBackground(Color.BLUE);
         JMenu file = new JMenu("File");
         JMenuItem resetClassifier = new JMenuItem("Reset Classifier");
-        JMenuItem openTrainFolder = new JMenuItem("Open Train Folder");
+        JMenuItem openTrainFolderUpdate = new JMenuItem("Open Train Folder to Update");
+        JMenuItem openTrainFolderOnce = new JMenuItem("Open Train Folder for once test");
         JMenuItem openTestFolder = new JMenuItem("Open Test Folder");
 
 //        JMenuItem openFile = new JMenuItem("Open File");
         JMenuItem quit = new JMenuItem("Quit");
         file.add(resetClassifier);
-//        file.add(openFile);
-        file.add(openTrainFolder);
+        file.add(openTrainFolderUpdate);
+        file.add(openTrainFolderOnce);
         file.add(openTestFolder);
         file.add(quit);
         JMenu run = new JMenu("Run");
@@ -62,10 +68,7 @@ public class UI extends JFrame {
         UIManager.put("Menu.font", f);
         UIManager.put("MenuItem.font", f);
 
-        DocumentClassifier dc = DocumentClassifier.getClassifier();
-        ColumnDataClassifier cdc = dc.cdc;
-        FolderInfo folderInfo = FolderInfo.getFolderInfo();
-        Map<String, String> filePathMap = folderInfo.filePathMap;
+
 
         resetClassifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +84,70 @@ public class UI extends JFrame {
                 }
             }
         });
-        openTrainFolder.addActionListener(new ActionListener() { // get train data path, transfer to train data type, run training function
+        openTrainFolderUpdate.addActionListener(new ActionListener() { // get train data path, transfer to train data type, run training function
+            public void actionPerformed(ActionEvent e) {
+                // create single train file
+                String desFolderPath = PATH + DATAPATH;
+                File desDir = new File(desFolderPath);
+                if (!desDir.exists()) {
+                    desDir.mkdirs();
+                }
+                String desFilePath = desFolderPath + File.separator + "allTrainDataSet.txt";
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
+                    try {
+                    File folder = chooser.getSelectedFile();
+                    String folderPath = folder.toString();
+                    Date dNow = new Date( );
+                    SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
+                    System.out.println(System.getProperty("user.dir"));
+                    String desPathStr = PATH + DATAPATH + File.separator + "permanent" + File.separator + folder.getName() + ft.format(dNow) + ".txt";
+                    if (!new File(desPathStr).exists()) FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
+                     //merge all train files, and re-train them
+                    FileTransfer.mergeDataSet(new File(PATH + DATAPATH + File.separator + "permanent"), desFilePath);
+                    String trainFile = desFilePath;
+                    System.out.println(trainFile);
+//
+//                        cdc.trainClassifier(trainFile);
+////                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("model.txt"));
+////                        cdc.serializeClassifier(os);
+////                        os.close();
+                    } catch (Exception ee) {
+                        ee.printStackTrace();
+                    }
+                }
+            }
+        });
+        openTrainFolderOnce.addActionListener(new ActionListener() { // get train data path, transfer to train data type, run training function
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
+                    File folder = chooser.getSelectedFile();
+                    String folderPath = folder.toString();
+                    Date dNow = new Date( );
+                    SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd.hh:mm:ss");
+                    String desPathStr = folderPath + File.separator + "StanfordTrain" + File.separator + folder.getName() + ft.format(dNow) + ".txt";
+
+
+                    if (!new File(desPathStr).exists()) {
+                        FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
+                    }
+                    String trainFile = desPathStr;
+                    System.out.println(trainFile);
+                    try {
+                        cdc.trainClassifier(trainFile);
+//                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("model.txt"));
+//                        cdc.serializeClassifier(os);
+//                        os.close();
+                    } catch (Exception ee) {
+                        ee.printStackTrace();
+                    }
+                }
+            }
+        });
+        openTrainFolderOnce.addActionListener(new ActionListener() { // get train data path, transfer to train data type, run training function
             public void actionPerformed(ActionEvent e) {
                 JFileChooser chooser = new JFileChooser();
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

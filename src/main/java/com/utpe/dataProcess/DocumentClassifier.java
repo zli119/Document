@@ -17,4 +17,5 @@ public class DocumentClassifier {
     public static void main(String[] args) {
         UI ui = new UI();
     }
+
 }

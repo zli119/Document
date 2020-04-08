@@ -1,8 +1,11 @@
 package com.utpe.dataProcess.fileTransfer;
 
 import java.io.*;
+import java.util.*;
 
 public class FileTransfer {
+    public static Set<String> localVisited = new HashSet<>();
+    public static Set<String> totalVisited = new HashSet<>();
     public static void formatFolder(File srcFile, String desPathStr, int i) {
         File[] files = srcFile.listFiles();
         for (File file : files) {
@@ -13,22 +16,25 @@ public class FileTransfer {
                 String path = file.getAbsolutePath();
                 //System.out.println(path + "   " + fileName + "  " + i);
                 String cls = path.substring(i + 1, path.length() - fileName.length() - 1);
-                try {
-                    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-                    BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
-                    FileWriter fw = new FileWriter(desPathStr, true);
-                    fw.write(cls + "\t" + fileName + "\t");    // a\b   c.txt  content \n
-                    while (in.ready()) {
-                        String line = in.readLine().replaceAll("\n", "");
-                        fw.append(line + " ");
+                String id = cls + "\t" + fileName + "\t" + file.length() + "\t";
+                if (localVisited.add(id)) {
+                    try {
+                        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+                        BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
+                        FileWriter fw = new FileWriter(desPathStr, true);
+                        fw.write(id);    // a\b   c.txt  content \n
+                        while (in.ready()) {
+                            String line = in.readLine().replaceAll("\n", "");
+                            fw.append(line + " ");
+                        }
+                        fw.write("\n");
+                        fw.flush();
+                        bis.close();
+                        in.close();
+                        fw.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
-                    fw.write("\n");
-                    fw.flush();
-                    bis.close();
-                    in.close();
-                    fw.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
                 }
             }
         }
@@ -51,6 +57,36 @@ public class FileTransfer {
             ex.printStackTrace();
         }
         return sb.toString();
+    }
+    public static void mergeDataSet(File srcFile, String desFilePath) {
+        File[] files = srcFile.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) mergeDataSet(file, desFilePath);
+            else {
+                    try {
+                        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+                        BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
+                        FileWriter fw = new FileWriter(desFilePath, true);
+                        while (in.ready()) {
+                            String line = in.readLine();
+                            String [] words = line.split("\t");
+                            String id = words[0].trim() + "\t" + words[1].trim() + "\t" + words[2].trim() + "\t";
+                            System.out.println(id);
+                            if (!totalVisited.add(id)) continue;
+                            System.out.println(id);
+                            fw.append(line);
+                            fw.append("\n");
+                        }
+                        fw.flush();
+                        bis.close();
+                        in.close();
+                        fw.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+            }
+        }
     }
 }
 
