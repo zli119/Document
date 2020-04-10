@@ -31,6 +31,7 @@ public class UI extends JFrame {
     Map<String, String> filePathMap = folderInfo.filePathMap;
     public final String PATH = System.getProperty("user.dir");
     public final String DATAPATH = File.separator + "data";
+
     public UI() {
         super("Document Classify");
         setSize(400, 200);
@@ -69,7 +70,6 @@ public class UI extends JFrame {
         UIManager.put("MenuItem.font", f);
 
 
-
         resetClassifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int resetChoose = JOptionPane.showConfirmDialog(ta, "Are you sure to clean the classifier?", "Reset Tip", JOptionPane.OK_CANCEL_OPTION);
@@ -97,22 +97,22 @@ public class UI extends JFrame {
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                     try {
-                    File folder = chooser.getSelectedFile();
-                    String folderPath = folder.toString();
-                    Date dNow = new Date( );
-                    SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd");
-                    System.out.println(System.getProperty("user.dir"));
-                    String desPathStr = PATH + DATAPATH + File.separator + "permanent" + File.separator + folder.getName() + ft.format(dNow) + ".txt";
-                    if (!new File(desPathStr).exists()) FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
-                     //merge all train files, and re-train them
-                    FileTransfer.mergeDataSet(new File(PATH + DATAPATH + File.separator + "permanent"), desFilePath);
-                    String trainFile = desFilePath;
-                    System.out.println(trainFile);
-//
-//                        cdc.trainClassifier(trainFile);
-////                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("model.txt"));
-////                        cdc.serializeClassifier(os);
-////                        os.close();
+                        File folder = chooser.getSelectedFile();
+                        String folderPath = folder.toString();
+                        Date dNow = new Date();
+                        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd");
+                        System.out.println(System.getProperty("user.dir"));
+                        String desPathStr = PATH + DATAPATH + File.separator + "permanent" + File.separator + folder.getName() + ft.format(dNow) + ".txt";
+                        if (!new File(desPathStr).exists())
+                            FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
+                        //merge all train files, and re-train them
+                        FileTransfer.mergeDataSet(new File(PATH + DATAPATH + File.separator + "permanent"), desFilePath);
+                        String trainFile = desFilePath;
+                        System.out.println(trainFile);
+                        cdc.trainClassifier(trainFile);
+                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(PATH + DATAPATH + File.separator + "model.txt"));
+                        cdc.serializeClassifier(os);
+                        os.close();
                     } catch (Exception ee) {
                         ee.printStackTrace();
                     }
@@ -126,8 +126,8 @@ public class UI extends JFrame {
                 if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                     File folder = chooser.getSelectedFile();
                     String folderPath = folder.toString();
-                    Date dNow = new Date( );
-                    SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd.hh:mm:ss");
+                    Date dNow = new Date();
+                    SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd.hh:mm:ss");
                     String desPathStr = folderPath + File.separator + "StanfordTrain" + File.separator + folder.getName() + ft.format(dNow) + ".txt";
 
 
@@ -154,8 +154,8 @@ public class UI extends JFrame {
                 if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                     File folder = chooser.getSelectedFile();
                     String folderPath = folder.toString();
-                    Date dNow = new Date( );
-                    SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd.hh:mm:ss");
+                    Date dNow = new Date();
+                    SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd.hh:mm:ss");
                     String desPathStr = folderPath + File.separator + "StanfordTrain" + File.separator + folder.getName() + ft.format(dNow) + ".txt";
 
 

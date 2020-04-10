@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="DocumentClassify:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/DocumentClassify_jar</output-path>
     <root id="archive" name="DocumentClassify.jar">
-      <element id="module-output" name="DocumentClassify" />
+      <element id="module-output" name="IntelligentDocumentClassify" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/xml-apis/xml-apis/1.3.03/xml-apis-1.3.03.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/de/jollyday/jollyday/0.4.9/jollyday-0.4.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/xalan/xalan/2.7.0/xalan-2.7.0.jar" path-in-jar="/" />

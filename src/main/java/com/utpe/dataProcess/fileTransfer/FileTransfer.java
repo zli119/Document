@@ -43,7 +43,7 @@ public class FileTransfer {
         if (!srcFile.isFile()) return "";
         StringBuilder sb = new StringBuilder();
         try {
-            sb.append("class" + "\t" + "fileName" + "\t");
+            sb.append("class" + "\t" + srcFile.getName() + "\t" + srcFile.length());
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(srcFile));
             BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
             while (in.ready()) {
