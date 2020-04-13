@@ -1,6 +1,9 @@
 # Document_Classify
 # A program that reads documents of every kind, gueses what the contents are and creates index of documents.
 
+Run this project:
+run "documentClassify.java"
+
 ### 1. target
 
 An application can read files, guesses what the contents are and creates and index of documents.
