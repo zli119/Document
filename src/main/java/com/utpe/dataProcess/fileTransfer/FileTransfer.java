@@ -34,9 +34,9 @@ public class FileTransfer {
                         in.close();
                         fw.close();
                     }
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println("This file has problem " + path + " " + fileName);
+                    System.out.println("This file has problem " + path);
                 }
             }
         }
