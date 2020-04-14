@@ -1,13 +1,14 @@
 # Document_Classify
-# A program that reads documents of every kind, gueses what the contents are and creates index of documents.
+# A program that reads documents of every kind, guesses what the contents are and creates index of documents.
 
 Run this project:
-run "documentClassify.java"
+run  /src/main/java/com/utpe/dataProcess/DocumentClassifier.java
+training data Set folder      /src/test/data/20news-bydate-train/
 
 ### 1. target
 
 An application can read files, guesses what the contents are and creates and index of documents.
-(1) Open a folder, it will classify the documents automatically
+(1) Open a folder, the classifier will classify the documents automatically
 (2) The Classifier could continue to update 
 (3) Store the Classifier and dataset into database
   
@@ -18,6 +19,7 @@ An application can read files, guesses what the contents are and creates and ind
 * Protege
 * Java  
 * Java Swing
+* Java Spring Boot
 
 ### 3. principle
 ⚫ The core part based on the ColumnDataClassifier API of Stanford NLP. It could train data set and predict new files
@@ -35,11 +37,13 @@ need: 1) train dataset
 
 ### 4. Components
 (1)Web
-  1) Admin/User send a file to server, return its' category; 
-     if the answer is wrong, admin have the authority to send the right answer to the server to learn
+  1) Admin/User send a file to server, return its' category; if the answer is wrong, admin have the authority to send the right answer to the server to learn
+     upload file button
+     appear its' category below
   2) Upload a fold, return zip of classified documents
   3) Admin can upload a folder for training 
   4) User can sign in and sign up
+  sign in/up page
   
 (2) Desktop
   Using Java Swing to built UI, it has buttons of "Reset Classifier"  "Open Train Folder to Update", "Open Train Folder for once test", "Open Test Folder",  "Predict File" "Classify Folder"
