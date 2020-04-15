@@ -226,7 +226,9 @@ public class UI extends JFrame {
                         while ((str = br.readLine()) != null) {
                             Datum datum = t.makeDatumFromLine(str);
                             String[] words = str.split("\\s+");
-                            String oldPath = folderPath + "\\" + words[0] + "\\" + words[1];
+                            String oldPath = "";
+                            if (folderPath.contains(words[0])) oldPath = folderPath + "\\" + words[1];
+                            else oldPath = folderPath + "\\" + words[0] + "\\" + words[1];
                             String cls = (String) t.classOf(datum);
                             String newPath = cls.toLowerCase().trim();
                             filePathMap.put(oldPath, newPath);

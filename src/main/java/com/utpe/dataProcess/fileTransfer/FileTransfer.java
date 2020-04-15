@@ -22,7 +22,7 @@ public class FileTransfer {
                     //System.out.println(filePath + "   " + fileName + "  " + index);
                     int fileNameCursor = filePath.length() - fileName.length() - 1;
                     if (fileNameCursor <= index) {
-                        className = filePath.substring(filePath.lastIndexOf("\\", fileNameCursor - 1), fileNameCursor);
+                        className = filePath.substring(filePath.lastIndexOf("\\", fileNameCursor - 1) + 1, fileNameCursor);
                     }
                     else className = filePath.substring(index + 1, fileNameCursor);
                     id = className + "\t" + fileName + "\t" + file.length() + "\t";
