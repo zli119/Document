@@ -3,15 +3,18 @@ package com.utpe.dataProcess;
 import com.utpe.ui.UI;
 import edu.stanford.nlp.classify.ColumnDataClassifier;
 
+import java.io.File;
 
+// create a singleton DocumentClassifier class that has property of columnDataClassifier
 public class DocumentClassifier {
-    public ColumnDataClassifier cdc;
-    private static DocumentClassifier classifier = new DocumentClassifier();
+    public ColumnDataClassifier columnDataClassifier;
+    private static DocumentClassifier documentClassifier = new DocumentClassifier();
     private DocumentClassifier() {
-        if (cdc == null) cdc = new ColumnDataClassifier("C:\\Users\\rocky\\IdeaProjects\\DocumentClassify\\src\\test\\data\\my.prop");
+        String propPath = System.getProperty("user.dir") + "\\data\\property\\" + "my.prop";
+        if (columnDataClassifier == null) columnDataClassifier = new ColumnDataClassifier(propPath);
     }
-    public static DocumentClassifier getClassifier() {
-        return classifier;
+    public static DocumentClassifier getDocumentClassifier() {
+        return documentClassifier;
     }
 
     public static void main(String[] args) {

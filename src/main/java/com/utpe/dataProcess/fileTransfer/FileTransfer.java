@@ -3,22 +3,29 @@ package com.utpe.dataProcess.fileTransfer;
 import java.io.*;
 import java.util.*;
 
-public class FileTransfer {
+//this is a crucial part, easy to create bugs
+public class FileTransfer {  
     public static Set<String> localVisited = new HashSet<>();
     public static Set<String> totalVisited = new HashSet<>();
 
-    public static void formatFolder(File srcFile, String desPathStr, int i) {
+    public static void formatFolder(File srcFile, String desPathStr, int index) { 
         File[] files = srcFile.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                formatFolder(file, desPathStr, i);
+                formatFolder(file, desPathStr, index);
             } else {
                 String fileName = file.getName();
-                String path = file.getAbsolutePath();
+                String filePath = file.getAbsolutePath();
+                String className = "";
+                String id = "";
                 try {
-                    //System.out.println(path + "   " + fileName + "  " + i);
-                    String cls = path.substring(i + 1, path.length() - fileName.length() - 1);
-                    String id = cls + "\t" + fileName + "\t" + file.length() + "\t";
+                    //System.out.println(filePath + "   " + fileName + "  " + index);
+                    int fileNameCursor = filePath.length() - fileName.length() - 1;
+                    if (fileNameCursor <= index) {
+                        className = filePath.substring(filePath.lastIndexOf("\\", fileNameCursor - 1), fileNameCursor);
+                    }
+                    else className = filePath.substring(index + 1, fileNameCursor);
+                    id = className + "\t" + fileName + "\t" + file.length() + "\t";
                     if (localVisited.add(id)) {
                         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
                         BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
@@ -36,7 +43,7 @@ public class FileTransfer {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println("This file has problem " + path);
+                    System.out.println("This file has problem " + filePath + " class name is" + className);
                 }
             }
         }
@@ -46,7 +53,7 @@ public class FileTransfer {
         if (!srcFile.isFile()) return "";
         StringBuilder sb = new StringBuilder();
         try {
-            sb.append("class" + "\t" + srcFile.getName() + "\t" + srcFile.length());
+            sb.append("class" + "\t" + srcFile.getName() + "\t" + srcFile.length() + "\t");
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(srcFile));
             BufferedReader in = new BufferedReader(new InputStreamReader(bis, "utf-8"));
             while (in.ready()) {

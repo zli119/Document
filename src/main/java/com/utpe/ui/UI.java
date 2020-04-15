@@ -25,8 +25,8 @@ import javax.swing.*;
  * @author Administrator
  */
 public class UI extends JFrame {
-    DocumentClassifier dc = DocumentClassifier.getClassifier();
-    ColumnDataClassifier cdc = dc.cdc;
+    DocumentClassifier dc = DocumentClassifier.getDocumentClassifier();
+    ColumnDataClassifier cdc = dc.columnDataClassifier;
     FolderInfo folderInfo = FolderInfo.getFolderInfo();
     Map<String, String> filePathMap = folderInfo.filePathMap;
     public final String PATH = System.getProperty("user.dir");
@@ -110,6 +110,8 @@ public class UI extends JFrame {
                         String trainFile = desFilePath;
                         System.out.println(trainFile);
                         cdc.trainClassifier(trainFile);
+                        File oldModel = new File(PATH + DATAPATH + File.separator + "model.txt");
+                        if (oldModel.exists()) oldModel.delete();
                         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(PATH + DATAPATH + File.separator + "model.txt"));
                         cdc.serializeClassifier(os);
                         os.close();
@@ -212,9 +214,7 @@ public class UI extends JFrame {
                     String folderPath = folder.toString();
                     int j = folderPath.lastIndexOf("\\");
                     String desPathStr = folderPath.substring(0, j) + File.separator + "predict.txt";
-                    if (!new File(desPathStr).exists()) {
-                        FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
-                    }
+                    FileTransfer.formatFolder(folder, desPathStr, folderPath.length());
                     String filePath = desPathStr;
                     try {
                         BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -235,6 +235,7 @@ public class UI extends JFrame {
                         ta.setText("Success!");
                         br.close();
                         filesReset.reset(folderPath);
+                        new File(desPathStr).delete();
                     } catch (Exception ee) {
                     }
                 }
@@ -277,13 +278,15 @@ public class UI extends JFrame {
 
                 if (chooser.showOpenDialog(chooser) == JFileChooser.APPROVE_OPTION) {
                     File file1 = chooser.getSelectedFile();
+                    String str = "";
                     try {
-                        String str = FileTransfer.formatFile(file1);
+                        str = FileTransfer.formatFile(file1);
                         Datum datum = cdc.makeDatumFromLine(str);
                         String cls = cdc.classOf(datum);
                         ta.setText(cls);
                         System.out.println(cls);
                     } catch (Exception ex) {
+                        System.out.println(str);
                         Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
