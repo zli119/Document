@@ -206,6 +206,7 @@ public class UI extends JFrame {
         });
         classifyFolder.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                int counter = 1;
                 JFileChooser chooser = new JFileChooser();
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -234,7 +235,7 @@ public class UI extends JFrame {
                             filePathMap.put(oldPath, newPath);
                             getAll += oldPath + "               " + cls + "\r\n";
                         }
-                        ta.setText("Success!");
+                        ta.setText("Success!" + counter++);
                         br.close();
                         filesReset.reset(folderPath);
                         new File(desPathStr).delete();
