@@ -2,8 +2,9 @@
 # A program that reads documents of every kind, guesses what the contents are and creates index of documents.
 
 Run this project:
+use IDE open "pom.xml" as project, it may automatically download dependencies
 run  /src/main/java/com/utpe/dataProcess/DocumentClassifier.java
-training data Set folder      /src/test/data/20news-bydate-train/
+training data Set folder      /src/test/data/reset/
 
 ### 1. target
 
@@ -22,6 +23,8 @@ An application can read files, guesses what the contents are and creates and ind
 * Java Spring Boot
 
 ### 3. principle
+API I am using  https://nlp.stanford.edu/nlp/javadoc/javanlp/edu/stanford/nlp/classify/ColumnDataClassifier.html
+And this is an example  https://nlp.stanford.edu/wiki/Software/Classifier/20_Newsgroups
 ⚫ The core part based on the ColumnDataClassifier API of Stanford NLP. It could train data set and predict new files
 
 ⚫ Learning and utilizing ontological link distance to figure out the relationship and degree of words, using K means clustering to create its own categories of commonality
