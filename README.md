@@ -18,7 +18,6 @@ An application can read files, guesses what the contents are and creates and ind
 
 * Stanford CoreNLP 
 * Protege
-* Java  
 * Java Swing
 * Java Spring Boot
 
